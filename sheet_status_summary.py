@@ -274,6 +274,17 @@ def handle_po_status(ack, body, say):
         say(f"Unable to send PO summary: {exc}")
 
 
+@app.shortcut("po summary")
+def handle_shortcut_status_summary(ack, body, say):
+    ack()
+    try:
+        channel_id = (body.get("channel") or {}).get("id") or body.get("channel_id")
+        send_summary_to_slack(channel_id=channel_id)
+        say("PO status summary sent.")
+    except Exception as exc:  # pragma: no cover
+        say(f"Unable to send PO summary: {exc}")
+
+
 @app.event("app_mention")
 def handle_app_mention(event, say):
     try:

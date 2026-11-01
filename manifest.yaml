@@ -11,6 +11,11 @@ features:
   bot_user:
     display_name: PO Notifications
     always_online: false
+  shortcuts:
+    - name: PO Summary
+      type: global
+      callback_id: po_status_summary
+      description: Upload a vendor CSV from FRCBom into the PO 
 
 oauth_config:
   scopes:
