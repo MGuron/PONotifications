@@ -6,8 +6,16 @@
       "destination": "/api/index"
     },
     {
+      "source": "/summary",
+      "destination": "/api/index"
+    },
+    {
       "source": "/health",
-      "destination": "/api/index/health"
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/index/health",
+      "destination": "/api/index"
     }
   ],
   "functions": {
