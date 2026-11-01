@@ -241,6 +241,8 @@ def build_slack_message(sheet_values):
     return {"blocks": blocks}
 
 
+load_dotenv()
+
 app = App(
     token=os.getenv("SLACK_BOT_TOKEN", ""),
     signing_secret=os.getenv("SLACK_SIGNING_SECRET", ""),
@@ -252,7 +254,7 @@ def send_summary_to_slack(channel_id=None, user_id=None):
     if not bot_token:
         raise ValueError("SLACK_BOT_TOKEN is not configured")
 
-    target = os.getenv("SLACK_NOTIFICATION_CHANNEL_ID", "").strip()
+    target = (user_id or channel_id or os.getenv("SLACK_NOTIFICATION_CHANNEL_ID", "")).strip()
     if not target:
         raise ValueError("No Slack destination is configured")
 
