@@ -253,9 +253,11 @@ def send_summary_to_slack(channel_id=None, user_id=None):
     bot_token = os.getenv("SLACK_BOT_TOKEN", "").strip()
     if not bot_token:
         raise ValueError("SLACK_BOT_TOKEN is not configured")
-
+    print("Bot token read")
     sheet_values = _read_sheet()
+    print("Sheet read")
     message = build_slack_message(sheet_values)
+    print("Slack Message created")
     payload = {"channel": channel_id, "text": "PO status update", "blocks": message["blocks"]}
     return WebClient(token=bot_token).chat_postMessage(**payload)
 
@@ -272,8 +274,8 @@ def handle_po_summary(ack, body, say):
 @app.shortcut("po_status_summary")
 def handle_shortcut_status_summary(ack, body, say):
     ack()
-    print("Status attempt")
     try:
+        print("Sending a status attempt")
         send_summary_to_slack(channel_id=os.getenv("SLACK_NOTIFICATION_CHANNEL_ID", "").strip())
         say("PO status summary sent.")
     except Exception:
