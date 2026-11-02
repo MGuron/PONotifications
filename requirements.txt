@@ -1,3 +1,4 @@
 gspread>=6.0,<7
+requests>=2.31,<3
 slack-sdk>=3.27,<4
 slack-bolt>=1.23,<2
