@@ -2,11 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
-      "source": "/webhook",
-      "destination": "/api/index"
-    },
-    {
-      "source": "/summary",
+      "source": "/slack/events",
       "destination": "/api/index"
     },
     {
@@ -14,7 +10,7 @@
       "destination": "/api/index"
     },
     {
-      "source": "/api/index/health",
+      "source": "/summary",
       "destination": "/api/index"
     }
   ],

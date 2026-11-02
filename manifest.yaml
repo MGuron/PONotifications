@@ -28,7 +28,7 @@ settings:
     request_url: https://po-notifications.vercel.app/api/index
   interactivity:
     is_enabled: true
-    request_url: https://po-notifications.vercel.app/api/index
+    request_url: https://po-notifications.vercel.app/slack/events
   org_deploy_enabled: false
   socket_mode_enabled: false
   token_rotation_enabled: false
