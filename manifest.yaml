@@ -12,10 +12,10 @@ features:
     display_name: PO Notifications
     always_online: false
   shortcuts:
-  - name: PO Summary
-    type: global
-    callback_id: po_status_summary
-    description: Upload a vendor CSV from FRCBom into the PO 
+    - name: PO Summary
+      type: global
+      callback_id: po_status_summary
+      description: Post the PO status summary to the configured channel
 
 oauth_config:
   scopes:
