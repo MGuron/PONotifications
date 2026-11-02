@@ -42,6 +42,6 @@ def app(environ, start_response):
 
 if __name__ == "__main__":
     from sheet_status_summary import main
-
+    print("doing stuff")
     main()
 

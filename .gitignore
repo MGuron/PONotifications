@@ -1,2 +1,10 @@
 # Created by venv; see https://docs.python.org/3/library/venv.html
-*
+*env
+Scripts/*
+Lib/*
+.vscode
+.__pycache__
+*/.__pycache_
+tests
+*.cfg
+*.pyc

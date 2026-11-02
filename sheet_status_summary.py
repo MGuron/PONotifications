@@ -277,6 +277,7 @@ def handle_po_status(ack, body, say):
 @app.shortcut("po summary")
 def handle_shortcut_status_summary(ack, body, say):
     ack()
+    print("Doing a summary")
     try:
         channel_id = (body.get("channel") or {}).get("id") or body.get("channel_id")
         send_summary_to_slack(channel_id=channel_id)
@@ -302,6 +303,7 @@ def main():
             "For Vercel HTTP mode, run the app via api/index.py and keep socket mode disabled."
         )
     SocketModeHandler(app, os.getenv("SLACK_APP_TOKEN")).start()
+    print("App started")
 
 
 if __name__ == "__main__":
