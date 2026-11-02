@@ -13,29 +13,19 @@ def app(environ, start_response):
     print(f"DEBUG route path={path} method={method}")
     print(f"DEBUG headers: {dict((k, v) for k, v in environ.items() if k.startswith('HTTP_') or k in {'CONTENT_TYPE', 'CONTENT_LENGTH'})}")
 
-    if path in {"/", "/api/index"}:
-        body = b"PO Notifications app ready"
-        headers = [
-            ("Content-Type", "text/plain; charset=utf-8"),
-            ("Content-Length", str(len(body))),
-        ]
-        print("DEBUG returning ready response")
-        start_response("200 OK", headers)
-        return [body]
-
-    if path == "/health":
-        body = b"ok"
-        headers = [
-            ("Content-Type", "text/plain; charset=utf-8"),
-            ("Content-Length", str(len(body))),
-        ]
-        print("DEBUG returning health response")
-        start_response("200 OK", headers)
-        return [body]
-
-    if path in {"/slack/events", "/summary", "/api/index/summary"}:
+    if path in {"/slack/events", "/api/index", "/summary", "/api/index/summary"}:
         print(f"DEBUG forwarding to Slack handler for {path}")
         return handler(environ, start_response)
+
+    if path in {"/", "/health"}:
+        body = b"ok" if path == "/health" else b"PO Notifications app ready"
+        headers = [
+            ("Content-Type", "text/plain; charset=utf-8"),
+            ("Content-Length", str(len(body))),
+        ]
+        print(f"DEBUG returning {path} response")
+        start_response("200 OK", headers)
+        return [body]
 
     body = b"Not Found"
     headers = [
