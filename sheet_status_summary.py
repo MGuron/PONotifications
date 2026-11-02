@@ -267,11 +267,14 @@ def send_summary_to_slack(channel_id=None, user_id=None):
 def handle_shortcut_status_summary(ack, body, say):
     ack()
     print("Doing a summary")
+    print(body)
     try:
         channel_id = (body.get("channel") or {}).get("id") or body.get("channel_id")
+        print("In a channel" + body)
         send_summary_to_slack(channel_id=channel_id)
         say("PO status summary sent.")
     except Exception as exc:  # pragma: no cover
+        print("Not in a channel")
         say(f"Unable to send PO summary: {exc}")
 
 
