@@ -263,7 +263,7 @@ def send_summary_to_slack(channel_id=None, user_id=None):
     payload = {"channel": target, "text": "PO status update", "blocks": message["blocks"]}
     return WebClient(token=bot_token).chat_postMessage(**payload)
 
-@app.shortcut("po summary")
+@app.shortcut("po_status_summary")
 def handle_shortcut_status_summary(ack, body, say):
     ack()
     print("Doing a summary")
