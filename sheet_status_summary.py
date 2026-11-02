@@ -297,7 +297,10 @@ def handle_app_mention(event, say):
 def main():
     load_dotenv()
     if not os.getenv("SLACK_APP_TOKEN"):
-        raise RuntimeError("SLACK_APP_TOKEN is required for Socket Mode.")
+        raise RuntimeError(
+            "SLACK_APP_TOKEN is required only for Socket Mode local execution. "
+            "For Vercel HTTP mode, run the app via api/index.py and keep socket mode disabled."
+        )
     SocketModeHandler(app, os.getenv("SLACK_APP_TOKEN")).start()
 
 

@@ -25,7 +25,7 @@ oauth_config:
 
 settings:
   event_subscriptions:
-    request_url: https://po-notifications.vercel.app/api/index
+    request_url: https://po-notifications.vercel.app/slack/events
   interactivity:
     is_enabled: true
     request_url: https://po-notifications.vercel.app/slack/events

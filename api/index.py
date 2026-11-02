@@ -8,9 +8,9 @@ handler = SlackRequestHandler(bolt_app, path="/slack/events")
 
 
 def app(environ, start_response):
-    path = (environ.get("PATH_INFO") or "").rstrip("/")
+    path = (environ.get("PATH_INFO") or "").rstrip("/") or "/"
 
-    if path in {"", "/"}:
+    if path in {"/", "/api/index"}:
         body = b"PO Notifications app ready"
         headers = [
             ("Content-Type", "text/plain; charset=utf-8"),
@@ -28,7 +28,7 @@ def app(environ, start_response):
         start_response("200 OK", headers)
         return [body]
 
-    if path in {"/slack/events", "/summary"}:
+    if path in {"/slack/events", "/summary", "/api/index/summary"}:
         return handler(environ, start_response)
 
     body = b"Not Found"
