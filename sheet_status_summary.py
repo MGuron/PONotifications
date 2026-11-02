@@ -263,17 +263,6 @@ def send_summary_to_slack(channel_id=None, user_id=None):
     payload = {"channel": target, "text": "PO status update", "blocks": message["blocks"]}
     return WebClient(token=bot_token).chat_postMessage(**payload)
 
-
-@app.command("/po-status")
-def handle_po_status(ack, body, say):
-    ack()
-    try:
-        send_summary_to_slack(channel_id=body.get("channel_id"))
-        say("PO status summary sent.")
-    except Exception as exc:  # pragma: no cover
-        say(f"Unable to send PO summary: {exc}")
-
-
 @app.shortcut("po summary")
 def handle_shortcut_status_summary(ack, body, say):
     ack()
