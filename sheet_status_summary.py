@@ -27,9 +27,13 @@ STATUS_LOOKUP = {status.casefold(): status for status in STATUSES}
 
 def _read_sheet():
     credentials = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
+    print("Read google credential")
     sheets_client = gspread.service_account_from_dict(credentials)
+    print("gspreadfrom dict")
     spreadsheet = sheets_client.open_by_key(os.environ["GOOGLE_SHEET_ID"])
+    print("Read spreadsheet")
     worksheet = spreadsheet.worksheet(os.getenv("GOOGLE_WORKSHEET_NAME", "Sheet1"))
+    print("Read worksheet")
     return worksheet.get_all_values()
 
 
