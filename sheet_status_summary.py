@@ -254,13 +254,9 @@ def send_summary_to_slack(channel_id=None, user_id=None):
     if not bot_token:
         raise ValueError("SLACK_BOT_TOKEN is not configured")
 
-    target = (user_id or channel_id or os.getenv("SLACK_NOTIFICATION_CHANNEL_ID", "")).strip()
-    if not target:
-        raise ValueError("No Slack destination is configured")
-
     sheet_values = _read_sheet()
     message = build_slack_message(sheet_values)
-    payload = {"channel": target, "text": "PO status update", "blocks": message["blocks"]}
+    payload = {"channel": channel_id, "text": "PO status update", "blocks": message["blocks"]}
     return WebClient(token=bot_token).chat_postMessage(**payload)
 
 @app.command("/po-summary")
@@ -274,10 +270,12 @@ def handle_po_summary(ack, body, say):
 
 
 @app.shortcut("po_status_summary")
-def handle_shortcut_status_summary(ack, body):
+def handle_shortcut_status_summary(ack, body, say):
     ack()
+    print("Status attempt")
     try:
         send_summary_to_slack(channel_id=os.getenv("SLACK_NOTIFICATION_CHANNEL_ID", "").strip())
+        say("PO status summary sent.")
     except Exception:
         pass
 
@@ -285,7 +283,8 @@ def handle_shortcut_status_summary(ack, body):
 @app.event("app_mention")
 def handle_app_mention(event, say):
     try:
-        send_summary_to_slack(channel_id=event.get("channel"))
+        say("Trying this PO summary")
+        send_summary_to_slack(channel_id=os.getenv("SLACK_NOTIFICATION_CHANNEL_ID", "").strip())
         say("PO status summary sent.")
     except Exception as exc:  # pragma: no cover
         say(f"Unable to send PO summary: {exc}")
