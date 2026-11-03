@@ -37,7 +37,9 @@ def _read_sheet():
         raise ValueError("GOOGLE_SHEET_ID is not configured")
     try:
         spreadsheet = sheets_client.open_by_key(sheet_id)
+        print('Finished')
     except Exception:
+        print('exception')
         logging.exception("open_by_key failed for GOOGLE_SHEET_ID=%r", sheet_id)
         raise
     print("Read spreadsheet")
