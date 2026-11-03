@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 from collections import OrderedDict
 
@@ -30,8 +31,15 @@ def _read_sheet():
     print("Read google credential")
     sheets_client = gspread.service_account_from_dict(credentials)
     print("gspreadfrom dict")
-    print(os.environ["GOOGLE_SHEET_ID"])
-    spreadsheet = sheets_client.open_by_key(os.environ["GOOGLE_SHEET_ID"].strip())
+    sheet_id = os.environ.get("GOOGLE_SHEET_ID").strip()
+    print(f"GOOGLE_SHEET_ID={sheet_id!r}")
+    if not sheet_id:
+        raise ValueError("GOOGLE_SHEET_ID is not configured")
+    try:
+        spreadsheet = sheets_client.open_by_key(sheet_id)
+    except Exception:
+        logging.exception("open_by_key failed for GOOGLE_SHEET_ID=%r", sheet_id)
+        raise
     print("Read spreadsheet")
     worksheet = spreadsheet.worksheet(os.getenv("GOOGLE_WORKSHEET_NAME", "Sheet1"))
     print("Read worksheet")
