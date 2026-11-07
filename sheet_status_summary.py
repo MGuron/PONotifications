@@ -27,22 +27,14 @@ COLUMNS = [
 STATUS_LOOKUP = {status.casefold(): status for status in STATUSES}
 
 def _read_sheet():
-    credentials = json.loads(os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"])
-    print("Read google credential")
-    print("DEBUG client_email:", credentials.get("client_email"))
+    raw_json_str = os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"]
+    fixed_json_str = raw_json_str.replace("\\n", "\n")
+    credentials = json.loads(fixed_json_str)
+    
     sheets_client = gspread.service_account_from_dict(credentials)
-    print("gspreadfrom dict")
     sheet_id = os.environ.get("GOOGLE_SHEET_ID").strip()
-    print(f"GOOGLE_SHEET_ID={sheet_id!r}")
-    if not sheet_id:
-        raise ValueError("GOOGLE_SHEET_ID is not configured")
-    try:
-        spreadsheet = sheets_client.open_by_key(sheet_id)
-        print('Finished')
-    except Exception:
-        print('exception')
-        logging.exception("open_by_key failed for GOOGLE_SHEET_ID=%r", sheet_id)
-        raise
+    spreadsheet = sheets_client.open_by_key(sheet_id)
+
     print("Read spreadsheet")
     worksheet = spreadsheet.worksheet(os.getenv("GOOGLE_WORKSHEET_NAME", "Sheet1"))
     print("Read worksheet")
